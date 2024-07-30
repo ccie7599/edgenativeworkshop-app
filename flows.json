@@ -1,0 +1,602 @@
+[
+    {
+        "id": "5f8937d2bf1fe3b6",
+        "type": "tab",
+        "label": "Set GeoIP ",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5645c3efd32ffa60",
+        "type": "prometheus-metric-config",
+        "name": "routertt",
+        "help": "RTT between cluster nodes",
+        "labels": "server_name, remote_name",
+        "mtype": "gauge"
+    },
+    {
+        "id": "94b4b77fc0f9d626",
+        "type": "prometheus-metric-config",
+        "name": "rtt",
+        "help": "rtt",
+        "labels": "server_name,remote_name,lat,lon",
+        "mtype": "gauge"
+    },
+    {
+        "id": "25dd4007495adfbc",
+        "type": "prometheus-metric-config",
+        "name": "mtr",
+        "help": "Results of MTR tests by job ",
+        "labels": "job,server_name,hopcount",
+        "mtype": "gauge"
+    },
+    {
+        "id": "4b85ff4ffeee8bbf",
+        "type": "NATS JetStream Server",
+        "server": "172.17.0.1",
+        "port": "4222"
+    },
+    {
+        "id": "b303512676095b7e",
+        "type": "NATS JetStream Stream",
+        "name": "",
+        "stream": "test",
+        "description": "",
+        "subjects": "test.>",
+        "max_msgs": "-1",
+        "max_age": "",
+        "max_ageunit": "second",
+        "max_size": "-1",
+        "max_sizeunit": "mb",
+        "num_replicas": "1"
+    },
+    {
+        "id": "5fa9dfc8666dc935",
+        "type": "NATS JetStream Stream",
+        "name": "",
+        "stream": "chatevents",
+        "description": "",
+        "subjects": "chat.>",
+        "max_msgs": "-1",
+        "max_age": "",
+        "max_ageunit": "second",
+        "max_size": "-1",
+        "max_sizeunit": "mb",
+        "num_replicas": "1"
+    },
+    {
+        "id": "fef564e7cdf1589a",
+        "type": "prometheus-metric-config",
+        "name": "replication_latency",
+        "help": "1 minute average of publish time to subscriber receipt ",
+        "labels": "server_name,lat,lon",
+        "mtype": "gauge"
+    },
+    {
+        "id": "2603a383d6b1e7d9",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "172.17.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4c887660b8bc7b81",
+        "type": "http request",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "Lookup public IP address",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "wgetip.com",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 170,
+        "y": 60,
+        "wires": [
+            [
+                "f5c28960156e248e"
+            ]
+        ]
+    },
+    {
+        "id": "f5c28960156e248e",
+        "type": "template",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "Format GeoIP Lookup",
+        "field": "url",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "http://ip-api.com/json/{{payload}}",
+        "output": "str",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "2d99faed21d621ce"
+            ]
+        ]
+    },
+    {
+        "id": "2d99faed21d621ce",
+        "type": "http request",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "GeoIP Lookup",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 140,
+        "y": 140,
+        "wires": [
+            [
+                "d9e2f02fb329b433"
+            ]
+        ]
+    },
+    {
+        "id": "d9e2f02fb329b433",
+        "type": "change",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "Set Global Variables ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "regionName",
+                "pt": "global",
+                "to": "payload.regionName",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "countryCode",
+                "pt": "global",
+                "to": "payload.countryCode",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "org",
+                "pt": "global",
+                "to": "payload.org",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "city",
+                "pt": "global",
+                "to": "payload.city",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "lat",
+                "pt": "global",
+                "to": "payload.lat",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "lon",
+                "pt": "global",
+                "to": "payload.lon",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "ip",
+                "pt": "global",
+                "to": "payload.query",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1438b96b03583c7",
+        "type": "inject",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 20,
+        "wires": [
+            [
+                "4c887660b8bc7b81"
+            ]
+        ]
+    },
+    {
+        "id": "3187a9126367ab93",
+        "type": "http in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "url": "/get",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 1000,
+        "y": 40,
+        "wires": [
+            [
+                "a4dc91431fb2b82a"
+            ]
+        ]
+    },
+    {
+        "id": "f2473e8bdd9aaffb",
+        "type": "http response",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a4dc91431fb2b82a",
+        "type": "change",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "save req and res",
+        "rules": [
+            {
+                "t": "set",
+                "p": "req",
+                "pt": "flow",
+                "to": "req",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "res",
+                "pt": "flow",
+                "to": "res",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 80,
+        "wires": [
+            [
+                "0a42817dc9b0f7a4"
+            ]
+        ]
+    },
+    {
+        "id": "68d8ca0abeac9b81",
+        "type": "file",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 480,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0a42817dc9b0f7a4",
+        "type": "template",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "field": "filename",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "/db/{{{payload.topic}}}",
+        "output": "str",
+        "x": 1020,
+        "y": 120,
+        "wires": [
+            [
+                "a4f2a3e96d2f6bd4"
+            ]
+        ]
+    },
+    {
+        "id": "a4f2a3e96d2f6bd4",
+        "type": "file in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 1020,
+        "y": 160,
+        "wires": [
+            [
+                "b0539d401715f5ef"
+            ]
+        ]
+    },
+    {
+        "id": "d1f0beb32eb4c4e0",
+        "type": "template",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "field": "filename",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "/db/{{{topic}}}",
+        "output": "str",
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "68d8ca0abeac9b81"
+            ]
+        ]
+    },
+    {
+        "id": "b0539d401715f5ef",
+        "type": "change",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "get req, res",
+        "rules": [
+            {
+                "t": "set",
+                "p": "req",
+                "pt": "msg",
+                "to": "req",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "res",
+                "pt": "msg",
+                "to": "res",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.endpoint-city",
+                "pt": "msg",
+                "to": "city",
+                "tot": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1030,
+        "y": 200,
+        "wires": [
+            [
+                "f2473e8bdd9aaffb"
+            ]
+        ]
+    },
+    {
+        "id": "c1e5078e451d7ae2",
+        "type": "http in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "url": "/post",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "06e0f06e44a0b54c",
+                "d4b3aa8c02345f5d",
+                "012c276c4644332d"
+            ]
+        ]
+    },
+    {
+        "id": "d4b3aa8c02345f5d",
+        "type": "http response",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 690,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "965df83b5975625f",
+        "type": "debug",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "0d788ec3177edabd",
+        "type": "mqtt in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "topic": "#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "2603a383d6b1e7d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 470,
+        "y": 40,
+        "wires": [
+            [
+                "d1f0beb32eb4c4e0",
+                "965df83b5975625f"
+            ]
+        ]
+    },
+    {
+        "id": "db770af7e154f765",
+        "type": "mqtt out",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2603a383d6b1e7d9",
+        "x": 670,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "197cbb8769217678",
+        "type": "inject",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload.timestamp",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload.publishcity",
+                "v": "city",
+                "vt": "global"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "timestamp",
+        "x": 710,
+        "y": 140,
+        "wires": [
+            [
+                "db770af7e154f765"
+            ]
+        ]
+    },
+    {
+        "id": "06e0f06e44a0b54c",
+        "type": "change",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "req.query.topic",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 240,
+        "wires": [
+            [
+                "db770af7e154f765"
+            ]
+        ]
+    },
+    {
+        "id": "012c276c4644332d",
+        "type": "debug",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 360,
+        "wires": []
+    }
+]
