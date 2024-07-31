@@ -469,7 +469,7 @@
         "type": "debug",
         "z": "5f8937d2bf1fe3b6",
         "name": "debug 5",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -510,7 +510,7 @@
         "name": "",
         "topic": "",
         "qos": "1",
-        "retain": "true",
+        "retain": "false",
         "respTopic": "",
         "contentType": "",
         "userProps": "",
@@ -587,7 +587,7 @@
         "type": "debug",
         "z": "5f8937d2bf1fe3b6",
         "name": "debug 6",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -623,7 +623,8 @@
         "y": 480,
         "wires": [
             [
-                "99d3a2a0930f1f63"
+                "99d3a2a0930f1f63",
+                "a6f90137418da7b4"
             ]
         ]
     },
@@ -644,8 +645,43 @@
         "y": 580,
         "wires": [
             [
-                "99d3a2a0930f1f63"
+                "99d3a2a0930f1f63",
+                "defce8694127b343"
             ]
         ]
+    },
+    {
+        "id": "a6f90137418da7b4",
+        "type": "debug",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "defce8694127b343",
+        "type": "debug",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 600,
+        "wires": []
     }
 ]
