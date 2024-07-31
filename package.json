@@ -15,7 +15,8 @@
         "node-red-contrib-mqtt-dynamicsub": "~0.0.9",
         "node-red-contrib-prometheus-exporter": "~1.0.5",
         "node-red-contrib-basicauth": "~1.0.4",
-        "atomic-jetstream": "~0.0.17"
+        "atomic-jetstream": "~0.0.17",
+        "@tq-bit/node-red-contrib-server-sent-events": "~1.2.6"
     },
         "scripts": {
         "start": "node $NODE_OPTIONS node_modules/node-red/red.js $FLOWS",
