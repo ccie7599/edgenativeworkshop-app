@@ -598,5 +598,54 @@
         "x": 380,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "99d3a2a0930f1f63",
+        "type": "sse-server",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "event": "message",
+        "data": "",
+        "x": 690,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "26f444a6d4d176ad",
+        "type": "http in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "url": "/sse",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 400,
+        "y": 480,
+        "wires": [
+            [
+                "99d3a2a0930f1f63"
+            ]
+        ]
+    },
+    {
+        "id": "dc05875c82c4ddea",
+        "type": "mqtt in",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "",
+        "topic": "timestamp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "2603a383d6b1e7d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 440,
+        "y": 580,
+        "wires": [
+            [
+                "99d3a2a0930f1f63"
+            ]
+        ]
     }
 ]
