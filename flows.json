@@ -7,72 +7,6 @@
         "info": ""
     },
     {
-        "id": "5645c3efd32ffa60",
-        "type": "prometheus-metric-config",
-        "name": "routertt",
-        "help": "RTT between cluster nodes",
-        "labels": "server_name, remote_name",
-        "mtype": "gauge"
-    },
-    {
-        "id": "94b4b77fc0f9d626",
-        "type": "prometheus-metric-config",
-        "name": "rtt",
-        "help": "rtt",
-        "labels": "server_name,remote_name,lat,lon",
-        "mtype": "gauge"
-    },
-    {
-        "id": "25dd4007495adfbc",
-        "type": "prometheus-metric-config",
-        "name": "mtr",
-        "help": "Results of MTR tests by job ",
-        "labels": "job,server_name,hopcount",
-        "mtype": "gauge"
-    },
-    {
-        "id": "4b85ff4ffeee8bbf",
-        "type": "NATS JetStream Server",
-        "server": "172.17.0.1",
-        "port": "4222"
-    },
-    {
-        "id": "b303512676095b7e",
-        "type": "NATS JetStream Stream",
-        "name": "",
-        "stream": "test",
-        "description": "",
-        "subjects": "test.>",
-        "max_msgs": "-1",
-        "max_age": "",
-        "max_ageunit": "second",
-        "max_size": "-1",
-        "max_sizeunit": "mb",
-        "num_replicas": "1"
-    },
-    {
-        "id": "5fa9dfc8666dc935",
-        "type": "NATS JetStream Stream",
-        "name": "",
-        "stream": "chatevents",
-        "description": "",
-        "subjects": "chat.>",
-        "max_msgs": "-1",
-        "max_age": "",
-        "max_ageunit": "second",
-        "max_size": "-1",
-        "max_sizeunit": "mb",
-        "num_replicas": "1"
-    },
-    {
-        "id": "fef564e7cdf1589a",
-        "type": "prometheus-metric-config",
-        "name": "replication_latency",
-        "help": "1 minute average of publish time to subscriber receipt ",
-        "labels": "server_name,lat,lon",
-        "mtype": "gauge"
-    },
-    {
         "id": "2603a383d6b1e7d9",
         "type": "mqtt-broker",
         "name": "",
@@ -412,13 +346,6 @@
                 "pt": "msg",
                 "to": "res",
                 "tot": "flow"
-            },
-            {
-                "t": "set",
-                "p": "payload.endpoint-city",
-                "pt": "msg",
-                "to": "city",
-                "tot": "global"
             }
         ],
         "action": "",
@@ -469,7 +396,7 @@
         "type": "debug",
         "z": "5f8937d2bf1fe3b6",
         "name": "debug 5",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -487,7 +414,7 @@
         "z": "5f8937d2bf1fe3b6",
         "name": "",
         "topic": "#",
-        "qos": "2",
+        "qos": "0",
         "datatype": "auto-detect",
         "broker": "2603a383d6b1e7d9",
         "nl": false,
@@ -517,7 +444,7 @@
         "correl": "",
         "expiry": "",
         "broker": "2603a383d6b1e7d9",
-        "x": 670,
+        "x": 790,
         "y": 220,
         "wires": []
     },
@@ -544,14 +471,15 @@
         ],
         "repeat": "10",
         "crontab": "",
-        "once": true,
+        "once": false,
         "onceDelay": 0.1,
         "topic": "timestamp",
-        "x": 710,
-        "y": 140,
+        "x": 490,
+        "y": 180,
         "wires": [
             [
-                "db770af7e154f765"
+                "db770af7e154f765",
+                "cd748997a7b1a18d"
             ]
         ]
     },
@@ -634,7 +562,7 @@
         "z": "5f8937d2bf1fe3b6",
         "name": "",
         "topic": "timestamp",
-        "qos": "2",
+        "qos": "0",
         "datatype": "auto-detect",
         "broker": "2603a383d6b1e7d9",
         "nl": false,
@@ -672,7 +600,7 @@
         "type": "debug",
         "z": "5f8937d2bf1fe3b6",
         "name": "debug 8",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -682,6 +610,23 @@
         "statusType": "auto",
         "x": 720,
         "y": 600,
+        "wires": []
+    },
+    {
+        "id": "cd748997a7b1a18d",
+        "type": "debug",
+        "z": "5f8937d2bf1fe3b6",
+        "name": "debug 9",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 180,
         "wires": []
     }
 ]
